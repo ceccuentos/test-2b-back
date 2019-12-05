@@ -29,9 +29,9 @@ import {verificarAuth} from './middlewares/auth';
 
 
 // Rutas
-routeApp.get('/', (req, res) => {
+/* routeApp.get('/', (req, res) => {
     res.send('Test 2B!');
-  });
+  }); */
   
   routeApp.get('/api/getnames', [verificarAuth], async(req, res, next) => {
     if (Math.random() < 0.15) {
