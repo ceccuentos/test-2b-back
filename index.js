@@ -5,6 +5,9 @@ import path from 'path';
 //import axios from 'axios';
 import request from 'request-promise';
 
+import logger from './utils/logger';
+import winston from 'winston';
+
 import { config } from 'dotenv';
 
 
@@ -12,7 +15,10 @@ const routeApp = express();
 config();
 
 //Middelware
-routeApp.use(morgan('tiny'));
+//routeApp.use(morgan('tiny'));
+logger.debug("Overriding 'Express' logger");
+routeApp.use(morgan('combined', { stream: winston.stream.write }));
+
 routeApp.use(cors());
 routeApp.use(express.json());
 //application/x-www-form-urlencoded
@@ -24,11 +30,13 @@ import {verificarAuth} from './middlewares/auth';
 
 // Rutas
 routeApp.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Test 2B!');
   });
   
   routeApp.get('/api/getnames', [verificarAuth], async(req, res, next) => {
     if (Math.random() < 0.15) {
+      let errorMessage = `Error Code: 500\nMessage: Servicio no disponible`;
+      logger.error(`500 - ${errorMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       res.status(503).send('Service No disponible');
     } else {
 /*         await axios.get(process.env.URL_API,{
