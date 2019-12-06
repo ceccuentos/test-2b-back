@@ -32,7 +32,7 @@ const keyRedis = 'key:name'
   }); */
   
   routeApp.get('/api/getnames', [verificarAuth], async(req, res, next) => {
-    if (Math.random() < 0.55) {
+    if (Math.random() < 0.15) {
       let errorMessage = `Error Code: 500\nMessage: Servicio no disponible`;
       logger.error(`500 - ${errorMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       res.status(503).send('Service No disponible');
@@ -79,5 +79,5 @@ routeApp.use(express.static(path.join(__dirname, 'public')));
 // Para acceder al directorio actual
 routeApp.set('puerto', process.env.PORT || 3000);
 routeApp.listen(routeApp.get('puerto'), function () {
-  console.log('Example app listening on port '+ routeApp.get('puerto'));
+  console.log('App listening on port '+ routeApp.get('puerto'));
 });
